@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import logo from '../../../logo.png'
 
+import registerPerson from './actions';
+
 
 
 export default class RegisterForm extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            firstName: '',
+            lastName: '',
             username: '',
             email: '',
-            password: '',
-            password2: '',              
+            password: '',       
         };
     }
 
@@ -19,7 +22,8 @@ export default class RegisterForm extends React.Component{
     }
 
     submitRegister = (event) => {
-        console.log('check register')
+        const { firstName, lastName, email, username, password } = this.state;
+        registerPerson({firstName, lastName, email, username, password});
         event.preventDefault();
     }
 
@@ -36,6 +40,28 @@ export default class RegisterForm extends React.Component{
                 onSubmit={this.submitRegister}
                 style={{width: 300}}
             >
+                <label className='font-weight-bold form-label'>
+                    First Name
+                </label>
+                    <input
+                        className='form-control'
+                        type='text'
+                        value={this.state.firstName}
+                        placeholder='Enter firstName'
+                        onChange={(event) => this.handleTextField(event, 'firstName')}
+                    >
+                    </input>
+                <label className='font-weight-bold form-label'>
+                    Last name
+                </label>
+                    <input
+                        className='form-control'
+                        type='text'
+                        value={this.state.lastName}
+                        placeholder='Enter lastName'
+                        onChange={(event) => this.handleTextField(event, 'lastName')}
+                    >
+                    </input>
                 <label className='font-weight-bold form-label'>
                     Username
                 </label>
@@ -67,17 +93,6 @@ export default class RegisterForm extends React.Component{
                         // value={this.state.password}
                         placeholder='Enter password'
                         onChange={(event) => this.handleTextField(event, 'password')}
-                    >
-                    </input>
-                <label className='font-weight-bold form-label'>
-                    Repeat password
-                </label>
-                    <input
-                        className='form-control'
-                        type='password'
-                        // value={this.state.password}
-                        placeholder='Enter password again'
-                        onChange={(event) => this.handleTextField(event, 'password2')}
                     >
                     </input>
                 <button

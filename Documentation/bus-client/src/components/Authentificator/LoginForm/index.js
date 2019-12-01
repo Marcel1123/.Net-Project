@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../../../logo.png'
 
+import loginPerson from './actions';
 
 
 export default class LoginForm extends React.Component{
@@ -17,7 +18,8 @@ export default class LoginForm extends React.Component{
     }
 
     submitLogin = (event) => {
-        console.log('check login')
+        const  {username, password} = this.state;
+        loginPerson({username, password});
         event.preventDefault();
     }
 
