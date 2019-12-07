@@ -1,13 +1,14 @@
 import axios from 'axios';
-
-const loginEndPoint = 'http://localhost:49536/api/v1/Person/login';
+import config from '../../../config/index';
 
 const loginPerson = async (body) => {
-    const resp = await axios.post(
-        loginEndPoint, 
-        body,
-        );
-    console.log('await done');
+    await axios.post(`${config.serverURL}/Person/login`, body)
+        .then((response) => {
+
+        })
+        .catch((err) => {
+            console.log('loginPerson', err);
+        })
 }
 
 export default loginPerson;

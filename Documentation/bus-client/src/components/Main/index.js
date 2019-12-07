@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Authentificator from '../Authentificator';
 
 export default class Main extends React.Component{

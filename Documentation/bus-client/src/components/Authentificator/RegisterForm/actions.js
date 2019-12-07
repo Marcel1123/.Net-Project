@@ -1,13 +1,16 @@
 import axios from 'axios';
-
-const registerEndPoint = 'http://localhost:49536/api/v1/Person';
+import config from '../../../config/index';
 
 const registerPerson = async (body) => {
-    const resp = await axios.post(
-        registerEndPoint, 
-        body,
-        );
-    console.log('await done');
+    return axios.post(`${config.serverURL}/Person`, body)
+        .then((response) => {
+            if(response.status === 201 && response.data){ return true; }
+            return false;
+        })
+        .catch((err) => {
+            console.log('registerPerson', err);
+            return false;
+        });
 }
 
 export default registerPerson;

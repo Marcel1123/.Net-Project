@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from '../../../logo.png'
 
 import registerPerson from './actions';
@@ -21,10 +21,22 @@ export default class RegisterForm extends React.Component{
         this.setState({[param]: event.target.value});
     }
 
-    submitRegister = (event) => {
-        const { firstName, lastName, email, username, password } = this.state;
-        registerPerson({firstName, lastName, email, username, password});
+    updateRegisterMessage = (response) => { this.props.updateModal(response) }
+
+    validateRegister = () => {
+        // const { firstName, lastName, email, username, password } = this.state;
+        // validate here all the register inputs
+        // alert('register validation returns true');
+        return true;
+    }
+
+    submitRegister = async (event) => {
         event.preventDefault();
+        const { firstName, lastName, email, username, password } = this.state;
+        if(this.validateRegister()){
+            const registered = await registerPerson({firstName, lastName, email, username, password});
+            this.updateRegisterMessage(registered);
+        }
     }
 
     render(){
