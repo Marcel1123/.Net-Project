@@ -1,4 +1,5 @@
 import React from 'react';
+import SimpleReactValidator from 'simple-react-validator';
 import logo from '../../../logo.png'
 
 import registerPerson from './actions';
@@ -15,19 +16,22 @@ export default class RegisterForm extends React.Component{
             email: '',
             password: '',       
         };
+        this.validator = new SimpleReactValidator();
     }
 
-    handleTextField = (event, param) =>{
+    handleTextField = (event, param) => {
         this.setState({[param]: event.target.value});
+        this.validator.showMessageFor(param);
     }
-
-    updateRegisterMessage = (response) => { this.props.updateModal(response) }
 
     validateRegister = () => {
-        // const { firstName, lastName, email, username, password } = this.state;
-        // validate here all the register inputs
-        // alert('register validation returns true');
-        return true;
+        let valid = false;
+        if(this.validator.allValid()){
+            valid = true;
+        } else {
+            this.forceUpdate();
+        }
+        return valid;
     }
 
     submitRegister = async (event) => {
@@ -35,7 +39,7 @@ export default class RegisterForm extends React.Component{
         const { firstName, lastName, email, username, password } = this.state;
         if(this.validateRegister()){
             const registered = await registerPerson({firstName, lastName, email, username, password});
-            this.updateRegisterMessage(registered);
+            this.props.updateModal(registered)
         }
     }
 
@@ -61,8 +65,8 @@ export default class RegisterForm extends React.Component{
                         value={this.state.firstName}
                         placeholder='Enter firstName'
                         onChange={(event) => this.handleTextField(event, 'firstName')}
-                    >
-                    </input>
+                    />
+                    {this.validator.message('firstName', this.state.firstName, 'required|alpha')}
                 <label className='font-weight-bold form-label'>
                     Last name
                 </label>
@@ -72,8 +76,8 @@ export default class RegisterForm extends React.Component{
                         value={this.state.lastName}
                         placeholder='Enter lastName'
                         onChange={(event) => this.handleTextField(event, 'lastName')}
-                    >
-                    </input>
+                    />
+                    {this.validator.message('lastName', this.state.lastName, 'required|alpha')}
                 <label className='font-weight-bold form-label'>
                     Username
                 </label>
@@ -83,8 +87,8 @@ export default class RegisterForm extends React.Component{
                         value={this.state.username}
                         placeholder='Enter username'
                         onChange={(event) => this.handleTextField(event, 'username')}
-                    >
-                    </input>
+                    />
+                    {this.validator.message('username', this.state.username, 'required|alpha_num|min:7|max:20')}
                 <label className='font-weight-bold form-label'>
                     Email
                 </label>
@@ -94,19 +98,18 @@ export default class RegisterForm extends React.Component{
                         value={this.state.email}
                         placeholder='Enter email'
                         onChange={(event) => this.handleTextField(event, 'email')}
-                    >
-                    </input>
+                    />
+                    {this.validator.message('email', this.state.email, 'required|email')}
                 <label className='font-weight-bold form-label'>
                     Password
                 </label>
                     <input
                         className='form-control'
                         type='password'
-                        // value={this.state.password}
                         placeholder='Enter password'
                         onChange={(event) => this.handleTextField(event, 'password')}
-                    >
-                    </input>
+                    />
+                    {this.validator.message('password', this.state.password, 'required|alpha_num')}
                 <button
                     type='submit'
                     className='btn btn-primary btn-sm form-row'

@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactModal from 'react-modal';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import verified from '../../images/verified.jpg';
+import wrong from '../../images/wrong.jpg';
 
 
 export default class Authentificator extends React.Component{
@@ -9,28 +10,37 @@ export default class Authentificator extends React.Component{
         super(props);
         this.state = {
             auth: 'login',
-            showModal: true,
+            showModal: false,
             modalMessage: '',
+            modalImg: wrong,
         };
     }
 
-    handleRegisterResponse = (resp) =>{
-        const msg = resp ? 'User successfully created!' : 'Something went wrong!';
-        const auth = resp ? 'login' : 'register';
-        this.setState({modalMessage: msg, showModal: true, auth});
+    handleRegisterResponse = (resp) => {
+        let msg = 'Something went wrong!';
+        let auth = 'register';
+        let img = wrong;
+        if(resp){
+            msg = 'User successfully created!';
+            auth = 'login';
+            img = verified;
+        }
+        this.setState({modalMessage: msg, showModal: true, modalImg: img, auth}, () => {
+            setTimeout(() => {
+                this.setState({showModal: false})
+            }, 2000);
+        });
     }
 
     render(){
         return(
         <>
-            <ReactModal
-                isOpen={this.state.showModal}
-                ariaHideApp={false}
-                onRequestClose={() => this.setState({showModal: false})}
-                style={{maxHeight: 200}}
-            >
-                {this.state.modalMessage}
-            </ReactModal>
+            {this.state.showModal &&
+                <div className='register-modal'>
+                    <img src={this.state.modalImg} alt=''/>
+                    {this.state.modalMessage}
+                </div>
+            }
             {this.state.auth === 'login' &&
                 <LoginForm
                     changeAuth={(val) => this.setState({auth: val})}

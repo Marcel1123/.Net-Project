@@ -43,7 +43,6 @@
   min-height: 100vh;
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: center;
 }
 
@@ -66,4 +65,26 @@
 
 .main-description h1 {
   padding: 40px;
+}
+
+.register-modal {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    border: 1px solid rgb(204, 204, 204);
+    background: rgb(255, 255, 255);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-modal img {
+  height: 10vmin;
+  margin-bottom: 10px;
 }
