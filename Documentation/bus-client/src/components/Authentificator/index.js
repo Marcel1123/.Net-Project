@@ -24,7 +24,7 @@ export default class Authentificator extends React.Component{
     handleLoginResponse = (resp) => {
         if(resp === false){
             this.setState({
-                modalMessage: 'Login failed!\nWrong username or password!',
+                modalMessage: 'Login failed! Wrong username or password!',
                 showModal: true,
                 modalImg: wrong,
                 }, () => { this.hideModal(); });
