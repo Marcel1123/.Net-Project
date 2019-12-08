@@ -106,6 +106,7 @@ export default class RegisterForm extends React.Component{
                     <input
                         className='form-control'
                         type='password'
+                        value={this.state.password}
                         placeholder='Enter password'
                         onChange={(event) => this.handleTextField(event, 'password')}
                     />

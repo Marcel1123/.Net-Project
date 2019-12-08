@@ -16,6 +16,21 @@ export default class Authentificator extends React.Component{
         };
     }
 
+    hideModal = () => {
+        setTimeout(() => {
+                this.setState({showModal: false})
+            }, 2000);
+    }
+    handleLoginResponse = (resp) => {
+        if(resp === false){
+            this.setState({
+                modalMessage: 'Login failed!\nWrong username or password!',
+                showModal: true,
+                modalImg: wrong,
+                }, () => { this.hideModal(); });
+        }
+    }
+
     handleRegisterResponse = (resp) => {
         let msg = 'Something went wrong!';
         let auth = 'register';
@@ -25,11 +40,7 @@ export default class Authentificator extends React.Component{
             auth = 'login';
             img = verified;
         }
-        this.setState({modalMessage: msg, showModal: true, modalImg: img, auth}, () => {
-            setTimeout(() => {
-                this.setState({showModal: false})
-            }, 2000);
-        });
+        this.setState({modalMessage: msg, showModal: true, modalImg: img, auth}, () => { this.hideModal(); });
     }
 
     render(){
@@ -44,6 +55,7 @@ export default class Authentificator extends React.Component{
             {this.state.auth === 'login' &&
                 <LoginForm
                     changeAuth={(val) => this.setState({auth: val})}
+                    updateModal={resp => this.handleLoginResponse(resp)}
                 >
                 </LoginForm>}
             {this.state.auth === 'register' &&

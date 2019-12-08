@@ -1,4 +1,5 @@
 import React from 'react';
+import SimpleReactValidator from 'simple-react-validator';
 import logo from '../../../logo.png'
 
 import loginPerson from './actions';
@@ -11,16 +12,31 @@ export default class LoginForm extends React.Component{
             username: '',
             password: '',
         };
+        this.validator = new SimpleReactValidator();
     }
 
     handleTextField = (event, param) =>{
         this.setState({[param]: event.target.value});
+        this.validator.showMessageFor(param);
     }
 
-    submitLogin = (event) => {
-        const  {username, password} = this.state;
-        loginPerson({username, password});
+    validateLogin = () => {
+        let valid = false;
+        if(this.validator.allValid()){
+            valid = true;
+        } else {
+            this.forceUpdate();
+        }
+        return valid;
+    }
+
+    submitLogin = async (event) => {
         event.preventDefault();
+        const  {username, password} = this.state;
+        if(this.validateLogin()){
+            const loggedIn = await loginPerson({username, password});
+            this.props.updateModal(loggedIn);
+        }
     }
 
     render(){
@@ -45,19 +61,19 @@ export default class LoginForm extends React.Component{
                         value={this.state.username}
                         placeholder='Enter username'
                         onChange={(event) => {this.handleTextField(event, 'username')}}
-                    >
-                    </input>
+                    />
+                    {this.validator.message('username', this.state.username, 'required|alpha_num|min:7|max:20')}
                 <label className='font-weight-bold form-label'>
                     Password
                 </label>
                     <input
                         className='form-control'
                         type='password'
-                        // value={this.state.password}
+                        value={this.state.password}
                         placeholder='Enter password'
                         onChange={(event) => {this.handleTextField(event, 'password')}}
-                    >
-                    </input>
+                    />
+                    {this.validator.message('password', this.state.password, 'required|alpha_num')}
                 <button
                     type='submit'
                     className='btn btn-primary btn-sm form-row'
