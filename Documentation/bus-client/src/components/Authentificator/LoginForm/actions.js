@@ -4,7 +4,9 @@ import config from '../../../config/index';
 const loginPerson = async (body) => {
     return axios.post(`${config.serverURL}/Person/login`, body)
         .then((response) => {
-            if(response.status === 200 && response.data){ return true; }
+            if(response.status === 200 && response.data) { 
+                return response.data;
+            }
             return false;
         })
         .catch((err) => {

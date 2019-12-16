@@ -28,6 +28,8 @@ export default class Authentificator extends React.Component{
                 showModal: true,
                 modalImg: wrong,
                 }, () => { this.hideModal(); });
+        } else {
+            this.props.handleSuccessLogin(resp);
         }
     }
 
