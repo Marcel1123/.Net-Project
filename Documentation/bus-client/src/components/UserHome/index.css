@@ -1,0 +1,26 @@
+.user-home {
+    min-height: 100vh;
+    display: block;
+}
+
+.user-home-container {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.user-header {
+    border-bottom: 3px solid #007BFF;
+    min-height: 40px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.user-header button {
+    margin-right: 20px;
+}
+
+.left-menu {
+    margin-right: 8px;   
+}

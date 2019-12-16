@@ -1,5 +1,4 @@
 // set/unset person id into browser localStorage
-
 const localItem = 'smartCityPersonId';
 
 const setPersonId = (id) => {
