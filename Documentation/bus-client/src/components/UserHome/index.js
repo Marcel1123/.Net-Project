@@ -4,6 +4,7 @@ import { getPersonId, delPersonId } from '../Authentificator/personIdHandler';
 import ContactUs from '../ContactUs';
 import Menu from './utils/menu';
 import MapContainer from './utils/map';
+import getUserCurrentLocation from './actions';
 
 import './index.css';
 
@@ -17,7 +18,7 @@ export default class UserHome extends React.Component{
     
     render(){
         if(!getPersonId()){ return <Redirect to='/'/>; }
-
+        console.log(getUserCurrentLocation)
         return(
             <div className='user-home'>
                 <div className='user-header'>

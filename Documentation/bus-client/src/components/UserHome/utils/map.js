@@ -12,13 +12,22 @@ const mapStyle = {
 };
 
 export class MapContainer extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  // }
 
   render() {
     return (
         <Map 
           google={this.props.google}
-          zoom={14}
           containerStyle={mapStyle}
+          gestureHandling='cooperative'
+          initialCenter={{
+            lat: 47.141683199999996,
+            lng: 27.5841024,
+          }}
+          zoom={14}
+          // onClick={null}
           >
           <Marker onClick={this.onMarkerClick}
                   name={'Current location'} />  
