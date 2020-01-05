@@ -1,17 +1,19 @@
 .user-home {
     min-height: 100vh;
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 .user-home-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 10px;
+    min-height: 92vh;
 }
 
 .user-header {
     border-bottom: 3px solid #007BFF;
-    min-height: 40px;
+    height: 8vh;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
@@ -22,5 +24,55 @@
 }
 
 .left-menu {
-    margin-right: 8px;   
+    margin-bottom: 10px;
 }
+
+.footer {
+	height:7vh;
+	width: 100%;
+	bottom:0;
+    position: fixed;
+	font-size: 12px;
+	text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	color:white;
+	/* background: #6C757D; */
+    background: #007BFF;
+}
+
+.footer p {
+    margin-top: none;
+}
+
+.contact-us {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-us .contact-us-bar{
+    height: 3px;
+    background: #007BFF;
+    width: 170px;
+    margin-bottom: 10px;
+}
+
+.contact-us div {
+    display: inline-flex;
+}
+
+.contact-icon {
+    margin-left: 5px;
+    margin-right: 5px;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+/* @media (max-width: 960px) and (min-width: 500px) {
+    .user-home-container {
+        flex-direction: column;
+    }
+} */

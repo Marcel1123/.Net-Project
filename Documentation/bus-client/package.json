@@ -9,6 +9,7 @@
     "popup-validation": "^3.0.3",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
+    "react-copyright": "0.0.1",
     "react-dom": "^16.12.0",
     "react-modal": "^3.11.1",
     "react-router": "^5.1.2",
@@ -36,5 +37,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-social-icons": "^4.1.0"
   }
 }
