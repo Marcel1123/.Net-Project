@@ -1,7 +1,6 @@
 import React from 'react';
-// import { Redirect } from 'react-router-dom';
-// import { getPersonId, delPersonId } from '../Authentificator/personIdHandler';
-
+import { getAddressByCoords, getCityRoutes } from '../actions';
+import Points from '../utils/points';
 
 export default class Menu extends React.Component{
     constructor(props){
@@ -10,49 +9,72 @@ export default class Menu extends React.Component{
             startPoint: '',
             endPoint: '',
         };
-        // this.validator = new SimpleReactValidator();
     }
 
-    handleTextField = (event, param) =>{
-        this.setState({[param]: event.target.value});
-        // this.validator.showMessageFor(param);
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
+        getAddressByCoords(nextProps.userLocation.lat, nextProps.userLocation.lng)
+            .then((addrr) => {
+                this.setState({startPoint: addrr, endPoint: nextProps.destination.addrr });
+            });
+    }
+
+    pointsAreInvalid = () => {
+        if(!this.state.startPoint || !this.state.endPoint) { return true }
+    }
+
+    searchSubmit = async (event) => {
+        event.preventDefault();
+        const startcoordonates = `${this.props.userLocation.lat},${this.props.userLocation.lng}`;
+        const endcoordonates = `${this.props.destination.lat},${this.props.destination.lng}`;
+        const { cityName } = this.props.userLocation;
+        getCityRoutes(startcoordonates, endcoordonates, cityName)
+            .then((resp) => console.log('asd', resp))
     }
     
     render(){
-
         return(
         <div className='left-menu'>
             <form
-                style={{width: 300}}
+                style={{width: '40%', marginRight: 15}}
+                onSubmit={this.searchSubmit}
             >
                 <label className='font-weight-bold form-label'>
                     Start point
                 </label>
                     <input
-                        className='form-control'
                         type='text'
+                        className='form-control'
+                        style={{backgroundColor: 'white'}}
                         value={this.state.startPoint}
-                        placeholder='Enter startPoint'
-                        onChange={(event) => {this.handleTextField(event, 'startPoint')}}
+                        placeholder='Enter start adress'
+                        readOnly={true}
                     />
                 <label className='font-weight-bold form-label'>
                     End point
                 </label>
                     <input
-                        className='form-control'
                         type='endPoint'
+                        className='form-control'
+                        style={{backgroundColor: 'white'}}
                         value={this.state.endPoint}
-                        placeholder='Enter endPoint'
-                        onChange={(event) => {this.handleTextField(event, 'endPoint')}}
+                        placeholder='Enter destination'
+                        readOnly={true}
                     />
                 <button
                     type='submit'
                     className='btn btn-primary btn-sm form-row'
                     style={{marginTop: 25}}
+                    disabled={this.pointsAreInvalid()}
                 >
                     Search
                 </button>
             </form>
+            <Points
+                points={this.props.points}
+                pointToAdd={this.props.pointToAdd}
+                pointName={this.props.destination}
+            />
         </div>
         );
     }

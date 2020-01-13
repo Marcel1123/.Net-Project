@@ -2,7 +2,6 @@ import axios from 'axios';
 import config from '../../../config/index';
 
 const loginPerson = async (body) => {
-    return { id: '50cb4358-1953-45b3-9407-4efe402ed777' };
     return axios.post(`${config.serverURL}/Person/login`, body)
         .then((response) => {
             if(response.status === 200 && response.data) { 

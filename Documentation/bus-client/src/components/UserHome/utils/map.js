@@ -1,7 +1,5 @@
 import React from 'react';
-// import { Redirect } from 'react-router-dom';
-// import { getPersonId, delPersonId } from '../Authentificator/personIdHandler';
-
+import { getAddressByCoords } from '../actions';
 
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
   
@@ -12,25 +10,61 @@ const mapStyle = {
 };
 
 export class MapContainer extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
 
+  constructor(props){
+    super(props);
+    this.state = {
+      pointOfIntMarker: {},
+    }
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick = (t, map, coord) => {
+      const { latLng } = coord;
+      const lat = latLng.lat();
+      const lng = latLng.lng();
+
+      this.setState(() => {
+        return {
+          pointOfIntMarker: {
+              title: "",
+              name: "",
+              position: { lat, lng }
+            }
+          };
+      });
+      this.props.addPoint(lat, lng)
+  }
+
+  onMarkerClick = async (event) => {
+    const { lat, lng } =event.position;
+    const addrr = await getAddressByCoords(lat, lng);
+    this.props.onDestClick(lat, lng, addrr);
+  }
+  
   render() {
+    const { lat, lng } = this.props.userLocation;
     return (
         <Map 
           google={this.props.google}
           containerStyle={mapStyle}
           gestureHandling='cooperative'
-          initialCenter={{
-            lat: 47.141683199999996,
-            lng: 27.5841024,
-          }}
-          zoom={14}
-          // onClick={null}
+          initialCenter={{ lat: lat, lng: lng }}
+          center={{ lat: lat, lng: lng }}
+          zoom={16}
+          onClick={this.onClick}
           >
-          <Marker onClick={this.onMarkerClick}
-                  name={'Current location'} />  
+          <Marker
+            name={'Current location'}
+            position={{ lat: lat, lng: lng }}
+            onClick={(event) => this.onMarkerClick(event)}
+          />  
+            <Marker
+              title={this.state.pointOfIntMarker.title}
+              name={this.state.pointOfIntMarker.name}
+              position={this.state.pointOfIntMarker.position}
+              onClick={(event) => this.onMarkerClick(event)}
+            />
           <InfoWindow onClose={this.onInfoWindowClose}>
               <div>
                 {/* <h1>{this.state.selectedPlace.name}</h1> */}
