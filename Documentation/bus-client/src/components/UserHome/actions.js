@@ -35,21 +35,21 @@ export const getAddressByCoords = (lat, lng) => {
 export const getUserCurrentLocation = async (callBackUpdate) => {
     return new Promise(function (resolve, reject) {
         callBackUpdate(47.1419182, 27.5841246, 'Iasi');
-        // axios.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCdQ25z8fj5hfTRMONCWin8zY08ZRuFQC0")
-        //     .then(response => {
-        //         const { lat, lng } = response.data.location;
-        //         Geocode.fromLatLng(lat, lng)
-        //             .then(response => {
-        //                 try {
-        //                     let cityName = response.results[0].address_components[2].long_name;
-        //                     cityName = removeDiacritics(cityName);
-        //                     callBackUpdate(lat, lng, cityName);
-        //                 } catch (err) {
-        //                     console.log('Failed to get the city name!', err)
-        //                     callBackUpdate(0, 0, 'UndefinedCity')
-        //                 }
-        //             });
-        //     });
+        axios.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCdQ25z8fj5hfTRMONCWin8zY08ZRuFQC0")
+            .then(response => {
+                const { lat, lng } = response.data.location;
+                Geocode.fromLatLng(lat, lng)
+                    .then(response => {
+                        try {
+                            let cityName = response.results[0].address_components[2].long_name;
+                            cityName = removeDiacritics(cityName);
+                            callBackUpdate(lat, lng, cityName);
+                        } catch (err) {
+                            console.log('Failed to get the city name!', err)
+                            callBackUpdate(0, 0, 'UndefinedCity')
+                        }
+                    });
+            });
     });
 }
 
@@ -96,7 +96,7 @@ export const deletePointOfInterest = async (id) => {
 }
 
 export const getCityRoutes = (startcoordonates, endcoordonates, cityName) => {
-    return axios(`${config.serverURL}/Cities/${startcoordonates}/${endcoordonates}/${cityName}`)
+    return axios(`${config.serverURL}/Cities/${startcoordonates.replace('.',',')}/${endcoordonates.replace('.',',')}/${cityName}`)
         .then((response) => {
             if(response.data) { 
                 console.log(response.data, 'dasd')

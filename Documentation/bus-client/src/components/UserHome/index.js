@@ -35,6 +35,7 @@ export default class UserHome extends React.Component{
                 lng: null,
                 addrr: '',
             },
+            processedRouteArray: [],
         }
     }
 
@@ -61,6 +62,13 @@ export default class UserHome extends React.Component{
     setDestination = (lat, lng, addrr) => {
         this.setState({destination: {lat, lng, addrr}});
     }
+
+    processRoute = (data) => {
+        console.log('data', data);
+        let processedRouteArray = [];
+        // process data here => processedroutearr = [{lat: .., lng: ..}, ...., {lat: .., lng: ..} ]
+        this.setState({processedRouteArray});
+    }
     
     render(){
         if(!getPersonId()){ return <Redirect to='/'/>; }
@@ -80,11 +88,13 @@ export default class UserHome extends React.Component{
                         pointToAdd={this.state.pointToAdd}
                         userLocation={this.state.location}
                         destination={this.state.destination}
+                        sendRoute={this.processRoute}
                     />
                     <MapContainer
                         userLocation={this.state.location}
                         addPoint={this.setPointToAddCoords}
                         onDestClick={this.setDestination}
+                        routes={this.state.processedRouteArray}
                     ></MapContainer>
                 </div>
                 <div className='footer'>

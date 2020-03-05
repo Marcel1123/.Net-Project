@@ -37,13 +37,14 @@ export class MapContainer extends React.Component {
   }
 
   onMarkerClick = async (event) => {
-    const { lat, lng } =event.position;
+    const { lat, lng } = event.position;
     const addrr = await getAddressByCoords(lat, lng);
     this.props.onDestClick(lat, lng, addrr);
   }
   
   render() {
     const { lat, lng } = this.props.userLocation;
+    console.log('Map-> routes: ', this.props.routes)
     return (
         <Map 
           google={this.props.google}
@@ -76,5 +77,5 @@ export class MapContainer extends React.Component {
 }
  
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyCdQ25z8fj5hfTRMONCWin8zY08ZRuFQC0') //apiKey creation: Dec 17, 2019
+  apiKey: ('AIzaSyCFIiFXUc2AM1SaUU8cbsShdoY1NAiH8_s') //apiKey creation: Dec 17, 2019
 })(MapContainer)

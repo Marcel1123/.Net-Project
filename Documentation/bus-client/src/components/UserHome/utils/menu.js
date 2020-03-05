@@ -25,11 +25,11 @@ export default class Menu extends React.Component{
 
     searchSubmit = async (event) => {
         event.preventDefault();
-        const startcoordonates = `${this.props.userLocation.lat},${this.props.userLocation.lng}`;
-        const endcoordonates = `${this.props.destination.lat},${this.props.destination.lng}`;
+        const startcoordonates = `${this.props.userLocation.lat}_${this.props.userLocation.lng}`;
+        const endcoordonates = `${this.props.destination.lat}_${this.props.destination.lng}`;
         const { cityName } = this.props.userLocation;
         getCityRoutes(startcoordonates, endcoordonates, cityName)
-            .then((resp) => console.log('asd', resp))
+            .then((resp) => this.props.sendRoute(resp))
     }
     
     render(){
